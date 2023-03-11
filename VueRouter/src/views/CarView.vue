@@ -17,6 +17,7 @@ const contactButtonText = ref("Click for contact");
 const contactButtonHandler = () => {
     if (router.currentRoute.value.path.includes("contact")) {
         router.push(`/car/${carId}`);
+        // When referring to any ref() declared variable in <script setup> you must indicate VARIABLENAME.value, as any declared variable in Vue is an object with multiple properties to make Vue state management work, and needs to know that we want to access the value of this object.
         contactButtonText.value = "Click for contact";
     }
     else {
@@ -24,7 +25,6 @@ const contactButtonHandler = () => {
         contactButtonText.value = "Hide contact";
     }
 }
-// 4:38:19 https://www.youtube.com/watch?v=I_xLMmNeLDY&list=WL&index=2&t=21s&ab_channel=LaithAcademy
 
 const carId = parseInt(route.params.id);
 
@@ -34,7 +34,8 @@ const car = cars.find(c => c.id === carId);
 </script>
 
 <template>
-    <div>
+    <!-- If the car object is not undefined -->
+    <div v-if="car">
         <h1>Car view</h1>
         <p>{{ car.name }}</p>
         <p>{{ car.year }}</p>
@@ -43,5 +44,9 @@ const car = cars.find(c => c.id === carId);
         <button @click="contactButtonHandler">{{ contactButtonText }}</button>
         <!-- Due to the way we defined the router rules in src/router/index.js, Vue knows that the ContactView.vue component should only be rendered when we are on the car route with any given id, that ALSO has a trailing /contact path. This allows us to access the car route with just an id to see the car information but not the Contact information, and also access the same car route with the id and a trailing /contact path to render the ContactView.vue component. -->
         <RouterView />
+    </div>
+    <!-- If the car object is undefined -->
+    <div v-else>
+        <h1>Car not found</h1>
     </div>
 </template>
