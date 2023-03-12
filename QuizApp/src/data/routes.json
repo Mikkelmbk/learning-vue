@@ -1,0 +1,14 @@
+[
+    {
+        "name":"Home",
+        "path": "/"
+    },
+    {
+        "name":"Quizes",
+        "path": "/quizes"
+    },
+    {
+        "name":"404",
+        "path": "/hsbgbh"
+    }
+]
