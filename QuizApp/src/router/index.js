@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import QuizesView from "../views/QuizesView.vue";
 import HomeView from "../views/HomeView.vue";
 import PageNotFoundView from "../views/404View.vue";
 import QuizView from "../views/QuizView.vue";
@@ -14,6 +15,11 @@ const router = createRouter({
         {
             path: "/home",
             redirect: "/"
+        },
+        {
+            path: "/quizes",
+            name: "quizes",
+            component: QuizesView
         },
         {
             path: "/quiz/:id",
