@@ -1,7 +1,18 @@
 <script setup>
-    import { defineProps } from 'vue';
+    // defineEmits will allow us to pass information from a child component to it's parent component/view. Props can only be passed DOWN through child components, so in order to pass information UP we need to utilize event emits.
+    import { defineProps, defineEmits } from 'vue';
     // Catching prop named "question" which was passed to this component from the QuizView.vue view.
     const { question } = defineProps(['question']);
+
+    // We define the emits that we want available to us defineEmits(["theEmitsCanBeNamedAnything","thisJustControlsWhichEmitsAreAvailableToUsWhenInvokingEmit"]).
+    const emit = defineEmits(["selectOption"]);
+
+    // Here we declare the name of the function that we are invoking upon clicking an option within the Question.vue component.
+    const emitSelectedOption = (isCorrect)=>{
+        // Here we are utilizing the emits that we defined above, and along with this emit we send the data that we want. This will allow the parent Component to listen for the selectOption emit and handle the data that we are sending along.
+        emit("selectOption",isCorrect);
+    }
+
 </script>
 
 <template>
@@ -10,7 +21,8 @@
             <h1 class="question">{{ question.text }}</h1>
         </div>
         <div class="option-container">
-            <div v-for="option in question.options" :key="option.id" class="option">
+            <!-- Here we are invoking the emitSelectedOption function that we declared earlier, and we are passing the option.isCorrect boolean value along as a parameter. -->
+            <div v-for="option in question.options" :key="option.id" @click="emitSelectedOption(option.isCorrect)" class="option">
                 <p class="option-label">{{ option.label }}</p>
                 <div class="option-value">
                     <p>{{ option.text }}</p>
